@@ -3,6 +3,7 @@ package com.board.frontcontroller;
 import com.board.command.BoardCommand;
 import com.board.command.BoardContentViewCommand;
 import com.board.command.BoardListCommand;
+import com.board.command.BoardWriteCommand;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,16 +41,19 @@ public class BoardFrontController extends HttpServlet {
         String conPath = request.getContextPath();
         String com = uri.substring(conPath.length());
 
+        // For testing the path
+        System.out.println("uri : " + uri + "\n" + "conPath : " + conPath + "\n" + "commnad : " + com + "\n");
+
         if (com.equals("/write_view.boardDo")) {
             viewPage = "";
-        } else if (com.equals("/write.boardDo")) {
-            viewPage = "";
-        } else if (com.equals("/write.boardDo")) {
-            viewPage = "";
-        } else if (com.equals("/list.boardDo")) {
-            viewPage = "/board/list.jsp";
+        } else if (com.equals("/board/write.boardDo")) {
+            command = new BoardWriteCommand();
+            command.execute(request, response);
+            viewPage = "/board/list.boardDo";
+        } else if (com.equals("/board/list.boardDo")) {
             command = new BoardListCommand();
             command.execute(request, response);
+            viewPage = "/board/list.jsp";
         } else if (com.equals("/content_view.boardDo")) {
             viewPage = "";
             command = new BoardContentViewCommand();

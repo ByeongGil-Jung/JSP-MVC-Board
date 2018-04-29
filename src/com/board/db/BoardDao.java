@@ -42,6 +42,35 @@ public class BoardDao {
         return connection;
     }
 
+    public void write(String bName, String bTitle, String bContent) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            String sql =
+                    "INSERT INTO mvc_board\n" +
+                    "(bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent)\n" +
+                    "VALUES (mvc_board_seq.nextval, ?, ?, ?, 0, mvc_board_seq.currval, 0, 0)";
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, bName);
+            pstmt.setString(2, bTitle);
+            pstmt.setString(3, bContent);
+            int rn = pstmt.executeUpdate();
+            if (rn == 1)
+                System.out.println("Insert Success");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public ArrayList<BoardDto> list() {
         ArrayList<BoardDto> dtos = new ArrayList<>();
         Connection conn = null;
@@ -49,7 +78,8 @@ public class BoardDao {
         ResultSet rs = null;
 
         try {
-            String sql = "SELECT bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent\n" +
+            String sql =
+                    "SELECT bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent\n" +
                     "FROM mvc_board\n" +
                     "ORDER BY bGroup DESC, bStep ASC";
             conn = getConnection();
