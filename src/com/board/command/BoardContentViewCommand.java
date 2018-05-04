@@ -1,5 +1,8 @@
 package com.board.command;
 
+import com.board.db.BoardDao;
+import com.board.db.BoardDto;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 public class BoardContentViewCommand implements BoardCommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
+        if (request.getMethod().equals("GET")) {
+            String bId = request.getParameter("bId");
 
+            BoardDao dao = BoardDao.getInstance();
+            BoardDto dto = dao.contentView(bId);
+
+            request.setAttribute("contentView", dto);
+        }
     }
 }

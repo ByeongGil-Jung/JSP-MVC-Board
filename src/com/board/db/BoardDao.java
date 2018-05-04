@@ -115,7 +115,76 @@ public class BoardDao {
     }
 
     public BoardDto contentView(String bId) {
+        // Increase the hit of board
+        upHit(bId);
+
         BoardDto dto = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            int bId_int = Integer.parseInt(bId);
+            String sql =
+                    "SELECT *\n" +
+                    "FROM mvc_board\n" +
+                    "WHERE bID = ?";
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bId_int);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String bName = rs.getString("bName");
+                String bTitle = rs.getString("bTitle");
+                String bContent = rs.getString("bContent");
+                Timestamp bDate = rs.getTimestamp("bDate");
+                int bHit = rs.getInt("bHit");
+                int bGroup = rs.getInt("bGroup");
+                int bStep = rs.getInt("bStep");
+                int bIndent = rs.getInt("bIndent");
+
+                dto = new BoardDto(bId_int, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return dto;
+    }
+
+    private void upHit(String bId) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            String sql =
+                    "UPDATE mvc_board\n" +
+                    "SET bHit = bHit + 1\n" +
+                    "WHERE bId = ?";
+
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, Integer.parseInt(bId));
+            int rn = pstmt.executeUpdate();
+            if (rn == 1)
+                System.out.println("Increasing the Hit");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

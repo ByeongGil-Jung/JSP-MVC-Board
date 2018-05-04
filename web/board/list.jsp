@@ -26,7 +26,7 @@
                 <td>${dto['bName']}</td>
                 <td>
                     <c:forEach begin="1" end="${dto['bIndent']}">-</c:forEach>
-                    <a href="">${dto['bDate']}</a>
+                    <a href="contentView.boardDo?bId=${dto['bId']}">${dto['bDate']}</a>
                 </td>
                 <td>${dto['bDate']}</td>
                 <td>${dto['bHit']}</td>

@@ -54,10 +54,10 @@ public class BoardFrontController extends HttpServlet {
             command = new BoardListCommand();
             command.execute(request, response);
             viewPage = "/board/list.jsp";
-        } else if (com.equals("/content_view.boardDo")) {
-            viewPage = "";
+        } else if (com.equals("/board/contentView.boardDo")) {
             command = new BoardContentViewCommand();
             command.execute(request, response);
+            viewPage = "/board/contentView.jsp";
         } else if (com.equals("/modify.boardDo")) {
             viewPage = "";
         } else if (com.equals("/delete.boardDo")) {
