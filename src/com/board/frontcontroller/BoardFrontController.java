@@ -1,9 +1,6 @@
 package com.board.frontcontroller;
 
-import com.board.command.BoardCommand;
-import com.board.command.BoardContentViewCommand;
-import com.board.command.BoardListCommand;
-import com.board.command.BoardWriteCommand;
+import com.board.command.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -58,8 +55,10 @@ public class BoardFrontController extends HttpServlet {
             command = new BoardContentViewCommand();
             command.execute(request, response);
             viewPage = "/board/contentView.jsp";
-        } else if (com.equals("/modify.boardDo")) {
-            viewPage = "";
+        } else if (com.equals("/board/modify.boardDo")) {
+            command = new BoardModifyCommand();
+            command.execute(request, response);
+            viewPage = "/board/list.boardDo";
         } else if (com.equals("/delete.boardDo")) {
             viewPage = "";
         } else if (com.equals("/reply_view.boardDo")) {

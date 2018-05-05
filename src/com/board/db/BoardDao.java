@@ -160,6 +160,37 @@ public class BoardDao {
         return dto;
     }
 
+    public void modify(String bId, String bName, String bTitle, String bContent) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            String sql =
+                    "UPDATE mvc_board\n" +
+                    "SET bName = ?, bTitle = ?, bContent = ?\n" +
+                    "WHERE bId = ?";
+
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, bName);
+            pstmt.setString(2, bTitle);
+            pstmt.setString(3, bContent);
+            pstmt.setInt(4, Integer.parseInt(bId));
+            int rn = pstmt.executeUpdate();
+            if (rn == 1)
+                System.out.println("Modify Success");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void upHit(String bId) {
         Connection conn = null;
         PreparedStatement pstmt = null;
