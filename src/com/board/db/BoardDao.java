@@ -191,6 +191,34 @@ public class BoardDao {
         }
     }
 
+    public void delete(String bId) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            String sql =
+                    "DELETE\n" +
+                    "FROM mvc_board\n" +
+                    "WHERE bId = ?";
+
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, Integer.parseInt(bId));
+            int rn = pstmt.executeUpdate();
+            if (rn == 1)
+                System.out.println("Delete Success");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void upHit(String bId) {
         Connection conn = null;
         PreparedStatement pstmt = null;
