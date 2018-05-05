@@ -41,8 +41,8 @@ public class BoardFrontController extends HttpServlet {
         // For testing the path
         System.out.println("uri : " + uri + "\n" + "conPath : " + conPath + "\n" + "commnad : " + com + "\n");
 
-        if (com.equals("/write_view.boardDo")) {
-            viewPage = "";
+        if (com.equals("/board/write_view.boardDo")) {
+            viewPage = "/board/write.jsp";
         } else if (com.equals("/board/write.boardDo")) {
             command = new BoardWriteCommand();
             command.execute(request, response);
