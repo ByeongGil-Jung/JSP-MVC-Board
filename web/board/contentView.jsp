@@ -35,7 +35,7 @@
                 <td> <textarea name="bContent" rows="10">${requestScope["contentView"]["bContent"]}</textarea> </td>
             </tr>
             <tr>
-                <td colspan="2"> <input type="submit" value="Modify"/> &nbsp;&nbsp; <a href="/board/list.boardDo">Go List</a> &nbsp;&nbsp; <a href="/board/delete.boardDo?bId=${requestScope["contentView"]["bId"]}">Delete</a> &nbsp;&nbsp; <a href="">Reply</a> </td>
+                <td colspan="2"> <input type="submit" value="Modify"/> &nbsp;&nbsp; <a href="/board/list.boardDo">Go List</a> &nbsp;&nbsp; <a href="/board/delete.boardDo?bId=${requestScope["contentView"]["bId"]}">Delete</a> &nbsp;&nbsp; <a href="/board/replyView.boardDo?bId=${requestScope["contentView"]["bId"]}">Reply</a> </td>
             </tr>
         </table>
     </form>
