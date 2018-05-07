@@ -67,8 +67,10 @@ public class BoardFrontController extends HttpServlet {
             command = new BoardReplyViewCommand();
             command.execute(request, response);
             viewPage = "/board/replyView.jsp";
-        } else if (com.equals("/reply.boardDo")) {
-
+        } else if (com.equals("/board/reply.boardDo")) {
+            command = new BoardReplyCommand();
+            command.execute(request, response);
+            viewPage = "/board/list.boardDo";
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

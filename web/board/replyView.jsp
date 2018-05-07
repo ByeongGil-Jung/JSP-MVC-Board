@@ -12,6 +12,10 @@
 </head>
 <body>
     <form action="/board/reply.boardDo" method="post">
+        <input type="hidden" name="bId" value="${requestScope["replyView"]["bId"]}"/>
+        <input type="hidden" name="bGroup" value="${requestScope["replyView"]["bGroup"]}"/>
+        <input type="hidden" name="bStep" value="${requestScope["replyView"]["bStep"]}"/>
+        <input type="hidden" name="bIndent" value="${requestScope["replyView"]["bIndent"]}"/>
         <table width="500" cellpadding="0" cellspacing="0" border="1">
             <tr>
                 <td>Order</td>

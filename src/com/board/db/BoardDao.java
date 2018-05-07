@@ -263,6 +263,71 @@ public class BoardDao {
         return dto;
     }
 
+    public void reply(String bId, String bName, String bTitle, String bContent, String bGroup, String bStep, String bIndent) {
+        replyShape(bGroup, bStep);
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            String sql =
+                    "INSERT INTO mvc_board\n" +
+                    "(bId, bName, bTitle, bContent, bGroup, bStep, bIndent)\n" +
+                    "VALUES (mvc_board_seq.nextval, ?, ?, ?, ?, ?, ?)";
+
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, bName);
+            pstmt.setString(2, bTitle);
+            pstmt.setString(3, bContent);
+            pstmt.setInt(4, Integer.parseInt(bGroup));
+            pstmt.setInt(5, Integer.parseInt(bStep) + 1);
+            pstmt.setInt(6, Integer.parseInt(bIndent) + 1);
+            int rn = pstmt.executeUpdate();
+            if (rn == 1)
+                System.out.println("Insert reply Success");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void replyShape(String bGroup, String bStep) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            String sql =
+                    "UPDATE mvc_board\n" +
+                    "SET bStep = bStep + 1\n" +
+                    "WHERE bGroup = ? AND bStep > ?";
+
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, Integer.parseInt(bGroup));
+            pstmt.setInt(2, Integer.parseInt(bStep));
+            int rn = pstmt.executeUpdate();
+            if (rn == 1)
+                System.out.println("Success reply shaping");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void upHit(String bId) {
         Connection conn = null;
         PreparedStatement pstmt = null;
